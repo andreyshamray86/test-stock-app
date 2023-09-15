@@ -2,11 +2,13 @@ import React from 'react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Table from '../../components/blocks/Table';
 import {usePollingFetch} from '../../api/usePollingFetch';
-import {IMarket} from '../../types/IMarket';
+import {ITicker} from '../../types/ITicker';
 import ScreenTitle from '../../components/ui/ScreenTitle';
 
 const Stock = () => {
-  const {data, error} = usePollingFetch<IMarket>();
+  const {data, error} = usePollingFetch<ITicker>();
+
+  console.log('err', error);
 
   return (
     <View style={styles.wrapper}>
@@ -16,23 +18,21 @@ const Stock = () => {
       {data || error ? (
         <Table>
           {error ? (
-            <Table.Row>
+            <Table.Row error>
               <Table.Cell>{error}</Table.Cell>
             </Table.Row>
           ) : null}
           {data?.map((item, idx) => (
             <Table.Row key={item.symbol} withBg={idx % 2 !== 0}>
-              <Table.Cell customStyles={{width: '35%'}}>
+              <Table.Cell customStyles={{width: '20%'}}>
                 {item.displayName}
               </Table.Cell>
+              <Table.Cell customStyles={{width: '30%'}}>
+                {item.markPrice}
+              </Table.Cell>
+              <Table.Cell customStyles={{width: '30%'}}>{item.high}</Table.Cell>
               <Table.Cell customStyles={{width: '20%'}}>
-                {item.state}
-              </Table.Cell>
-              <Table.Cell customStyles={{width: '10%'}}>
-                {item.symbolTradeLimit.highestBid}
-              </Table.Cell>
-              <Table.Cell customStyles={{width: '35%'}}>
-                {item.visibleStartTime}
+                {item.dailyChange}
               </Table.Cell>
             </Table.Row>
           ))}

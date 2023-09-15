@@ -12,14 +12,28 @@ export const usePollingFetch = <T>() => {
     useCallback(() => {
       const stopPolling$ = new Subject();
 
+      async function fetchWithTimeout(url: string) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), 5000);
+
+        const response = await fetch(url, {
+          signal: controller.signal,
+        });
+        clearTimeout(id);
+
+        return response;
+      }
+
       const fetchData = async () => {
         try {
-          setError(null);
-          const response = await fetch(`${BASE_URL}/markets`);
+          const response = await fetchWithTimeout(
+            `${BASE_URL}/markets/ticker24h`,
+          );
           const fetchedData = await response.json();
           setData(fetchedData);
+          setError(null);
         } catch (err) {
-          setError('Error');
+          setError('Ошибка');
         }
       };
 

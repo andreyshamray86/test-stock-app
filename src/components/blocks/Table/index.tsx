@@ -3,17 +3,25 @@ import {View, StyleSheet, ScrollView, StyleProp, ViewStyle} from 'react-native';
 import {AppText} from '../../ui/AppText';
 
 type TableType = FC<{children: ReactNode | ReactNode[]}> & {
-  Row: FC<{children: ReactNode | ReactNode[]; withBg?: boolean}>;
+  Row: FC<{
+    children: ReactNode | ReactNode[];
+    withBg?: boolean;
+    error?: boolean;
+  }>;
   Cell: FC<{children: ReactNode; customStyles?: StyleProp<ViewStyle>}>;
 };
 
-const Row: FC<{children: ReactNode | ReactNode[]; withBg?: boolean}> = ({
-  children,
-  withBg,
-}) => {
+const Row: FC<{
+  children: ReactNode | ReactNode[];
+  withBg?: boolean;
+  error?: boolean;
+}> = ({children, withBg, error}) => {
   return (
     <View
-      style={{...styles.row, backgroundColor: withBg ? '#FAF0E6' : '#B9B4C7'}}>
+      style={{
+        ...styles.row,
+        backgroundColor: withBg ? '#FAF0E6' : error ? '#CD6688' : '#B9B4C7',
+      }}>
       {children}
     </View>
   );
@@ -25,7 +33,7 @@ const Cell: FC<{
 }> = ({children, customStyles}) => {
   return (
     <View style={[styles.cell, customStyles]}>
-      <AppText>{children}</AppText>
+      <AppText style={styles.cellText}>{children}</AppText>
     </View>
   );
 };
@@ -45,6 +53,9 @@ const styles = StyleSheet.create({
   },
   cell: {
     flexGrow: 1,
+  },
+  cellText: {
+    fontSize: 12,
   },
 });
 
