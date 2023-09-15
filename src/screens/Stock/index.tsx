@@ -8,8 +8,6 @@ import ScreenTitle from '../../components/ui/ScreenTitle';
 const Stock = () => {
   const {data, error} = usePollingFetch<ITicker>();
 
-  console.log('err', error);
-
   return (
     <View style={styles.wrapper}>
       <View style={styles.titleWrapper}>
