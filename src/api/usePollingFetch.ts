@@ -23,7 +23,7 @@ export const usePollingFetch = <T>() => {
         }
       };
 
-      const pollingSubscription = interval(3000)
+      const pollingSubscription = interval(5000)
         .pipe(takeUntil(stopPolling$))
         .subscribe(() => {
           fetchData();

@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
-import {AppText} from '../../components/ui/AppText';
 import Table from '../../components/blocks/Table';
 import {usePollingFetch} from '../../api/usePollingFetch';
 import {IMarket} from '../../types/IMarket';
+import ScreenTitle from '../../components/ui/ScreenTitle';
 
 const Stock = () => {
   const {data, error} = usePollingFetch<IMarket>();
@@ -11,7 +11,7 @@ const Stock = () => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.titleWrapper}>
-        <AppText style={styles.title}>Котировки</AppText>
+        <ScreenTitle text="Котировки" />
       </View>
       {data || error ? (
         <Table>
@@ -22,12 +22,18 @@ const Stock = () => {
           ) : null}
           {data?.map((item, idx) => (
             <Table.Row key={item.symbol} withBg={idx % 2 !== 0}>
-              <Table.Cell customStyles={{width: '30%'}}>
+              <Table.Cell customStyles={{width: '35%'}}>
                 {item.displayName}
               </Table.Cell>
-              <Table.Cell>{item.state}</Table.Cell>
-              <Table.Cell>{item.symbolTradeLimit.highestBid}</Table.Cell>
-              <Table.Cell>{item.visibleStartTime}</Table.Cell>
+              <Table.Cell customStyles={{width: '20%'}}>
+                {item.state}
+              </Table.Cell>
+              <Table.Cell customStyles={{width: '10%'}}>
+                {item.symbolTradeLimit.highestBid}
+              </Table.Cell>
+              <Table.Cell customStyles={{width: '35%'}}>
+                {item.visibleStartTime}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table>
@@ -50,9 +56,6 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     paddingBottom: 10,
-  },
-  title: {
-    fontSize: 30,
   },
 });
 

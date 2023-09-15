@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {AppText} from '../../components/ui/AppText';
+import ScreenTitle from '../../components/ui/ScreenTitle';
 
 const About = () => {
   return (
     <View style={styles.wrapper}>
-      <AppText style={styles.text}>О приложении</AppText>
+      <ScreenTitle text="О приложении" />
     </View>
   );
 };
